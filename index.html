@@ -65,13 +65,12 @@ body{
   justify-content:flex-start
 }
 .mage-fig{
-  width:260px;height:260px;
+  width:400px;height:400px;
   display:flex;align-items:center;justify-content:center;
-  position:relative;
-  margin-left:-20px
+  position:relative
 }
 .mage-fig img{
-  height:220px;width:auto;
+  height:320px;width:auto;
   object-fit:contain;image-rendering:pixelated;
   animation:mageIdle 3.2s ease-in-out infinite;
   filter:drop-shadow(0 0 40px rgba(106,13,173,0.2))
@@ -117,14 +116,13 @@ body{
   justify-content:flex-end
 }
 .enemy-fig{
-  width:280px;height:280px;
+  width:400px;height:400px;
   display:flex;align-items:center;justify-content:center;
-  position:relative;
-  margin-right:-20px
+  position:relative
 }
 .enemy-fig::before{
   content:'';position:absolute;
-  width:320px;height:320px;border-radius:50%;
+  width:420px;height:420px;border-radius:50%;
   background:radial-gradient(circle,rgba(106,13,173,0.1),rgba(204,17,17,0.04),transparent 70%);
   animation:enemyAura 3s ease-in-out infinite
 }
@@ -142,7 +140,7 @@ body{
 
 .enemy-fig img{
   position:relative;z-index:2;
-  height:240px;width:auto;
+  height:340px;width:auto;
   object-fit:contain;image-rendering:pixelated;
   animation:enemyIdle 2.8s ease-in-out infinite;
   filter:drop-shadow(0 0 50px rgba(139,0,0,0.25))
@@ -382,12 +380,12 @@ body{
 }
 
 @media(max-width:600px){
-  .mage-fig{width:160px;height:160px}
-  .mage-fig img{height:130px}
-  .enemy-fig{width:180px;height:180px}
-  .enemy-fig img{height:150px}
-  .enemy-fig::before{width:200px;height:200px}
-  .enemy-fig::after{width:220px;height:220px}
+  .mage-fig{width:200px;height:200px}
+  .mage-fig img{height:160px}
+  .enemy-fig{width:220px;height:220px}
+  .enemy-fig img{height:180px}
+  .enemy-fig::before{width:250px;height:250px}
+  .enemy-fig::after{width:280px;height:280px}
   .mage-hp,.enemy-hp{width:100px}
   .card{width:80px;height:112px;margin:0 -14px}
   .card-n{font-size:7px;bottom:13px}
@@ -420,7 +418,7 @@ body{
           <div class="row"><span class="l">✧ Mago Oscuro</span><span class="r" id="mHpT">30/30</span></div>
           <div class="bar"><div class="fill" id="mHpF" style="width:100%"></div></div>
         </div>
-        <img src="assets/player_mage.png" alt="" id="mImg">
+        <img src="assets/player_mage_flipped.png" alt="" id="mImg">
       </div>
     </div>
 
@@ -431,7 +429,7 @@ body{
           <div class="row"><span class="l" id="eNameT">✧ Lich Rey</span><span class="r" id="eHpT">18/18</span></div>
           <div class="bar"><div class="fill" id="eHpF" style="width:100%"></div></div>
         </div>
-        <img src="assets/enemy_lich.png" alt="" id="eImg">
+        <img src="assets/enemy_lich_flipped.png" alt="" id="eImg">
         <div class="enemy-intent" id="eIntent">🗡️ ATACAR · 6</div>
       </div>
     </div>
@@ -676,28 +674,28 @@ function onPlay(idx){
 
 function execPlay(idx){
   if(state!=='player')return;
-  const r=playCard(P,E,idx);
-  if(!r){console.log('execPlay: playCard returned null for idx',idx);return}
-  const{carta:c,res}=r;
+  const res=playCard(P,E,idx);
+  if(!res){console.log('execPlay: playCard returned null for idx',idx);return}
+  const c=res.carta,cr=res.res;
 
   // Mage cast animation
   mFig.classList.remove('casting');void mFig.offsetWidth;mFig.classList.add('casting');
 
   const er=eFig.getBoundingClientRect();
 
-  if(res.t==='dmg'){
-    L(`⚡ ${c.name}: ${res.v} daño`,'d');
+  if(cr.t==='dmg'){
+    L(`⚡ ${c.name}: ${cr.v} daño`,'d');
     eFig.classList.remove('hurt');void eFig.offsetWidth;eFig.classList.add('hurt');
     SH();
-    FT(er.left+er.width/2-15,er.top-30,`-${res.v}`,'dmg')
+    FT(er.left+er.width/2-15,er.top-30,`-${cr.v}`,'dmg')
   }
-  if(res.t==='blo'){
-    L(`🛡️ ${c.name}: +${res.v} bloqueo`,'b');
-    FT(window.innerWidth/2-40,window.innerHeight*0.55,`+${res.v} BLOQ`,'block')
+  if(cr.t==='blo'){
+    L(`🛡️ ${c.name}: +${cr.v} bloqueo`,'b');
+    FT(window.innerWidth/2-40,window.innerHeight*0.55,`+${cr.v} BLOQ`,'block')
   }
-  if(res.t==='buf'){
-    L(`🌑 ${c.name}: +${res.v} fuerza`);
-    FT(window.innerWidth/2-40,window.innerHeight*0.6,`+${res.v} FUERZA`,'buff')
+  if(cr.t==='buf'){
+    L(`🌑 ${c.name}: +${cr.v} fuerza`);
+    FT(window.innerWidth/2-40,window.innerHeight*0.6,`+${cr.v} FUERZA`,'buff')
   }
 
   render();
