@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cursed Arcana</title>
+<title>Cursed Arcana · Combate de Magia Tenebrosa</title>
 <style>
-/* ═══════════════════════════════════════════════════
-   CURSED ARCANA — Premium Creepy Magic Card Game
-   ═══════════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Uncial+Antiqua&family=Crimson+Text:ital@0;1&display=swap');
 
 :root {
@@ -42,8 +38,6 @@ body {
   -webkit-user-select: none;
 }
 
-/* ─── ANIMATED BG ─────────────────────────────────── */
-
 .bg-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -56,25 +50,17 @@ body {
   pointer-events: none;
 }
 
-/* ─── TITLE BAR ───────────────────────────────────── */
-
 .title-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 10;
-  padding: 14px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 10; padding: 14px 28px;
+  display: flex; align-items: center; justify-content: space-between;
   background: linear-gradient(180deg, rgba(10,10,15,0.95) 0%, transparent 100%);
   pointer-events: none;
 }
 
 .title-bar h1 {
   font-family: 'Uncial Antiqua', serif;
-  font-size: 16px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
+  font-size: 16px; letter-spacing: 6px; text-transform: uppercase;
   background: linear-gradient(135deg, var(--blood-light), var(--purple-glow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -82,47 +68,37 @@ body {
 }
 
 .title-bar .version {
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 2px;
-  font-family: 'Crimson Text', serif;
+  font-size: 10px; color: var(--text-muted); letter-spacing: 2px;
   -webkit-text-fill-color: var(--text-muted);
 }
 
-/* ─── GAME CONTAINER — 3 rows layout ──────────────── */
-
 .game-container {
-  position: relative;
-  z-index: 1;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+  position: relative; z-index: 1;
+  height: 100vh; display: flex; flex-direction: column;
   padding: 48px 20px 16px;
 }
 
-/* ─── ENEMY ZONE ───────────────────────────────────── */
+/* ─── ENEMY ───────────────────────────────────────── */
 
 .enemy-zone {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 0;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; min-height: 0;
 }
 
 .enemy-sprite {
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle, rgba(139,0,0,0.15) 0%, transparent 70%);
+  width: 128px; height: 128px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 56px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
   filter: drop-shadow(0 0 30px rgba(139,0,0,0.3));
   animation: enemyFloat 3s ease-in-out infinite;
   transition: filter 0.3s;
+}
+
+.enemy-sprite img {
+  width: 100%; height: 100%; object-fit: contain;
+  image-rendering: pixelated;
+  transform: scale(1.15);
 }
 
 @keyframes enemyFloat {
@@ -143,154 +119,96 @@ body {
 
 .enemy-name {
   font-family: 'MedievalSharp', serif;
-  font-size: 14px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: 8px;
+  font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-muted); margin-top: 6px;
 }
 
-.enemy-bar-wrap {
-  width: 280px;
-  max-width: 90vw;
-  margin-top: 8px;
-}
+.enemy-bar-wrap { width: 280px; max-width: 90vw; margin-top: 6px; }
 
 .enemy-hp-bar {
-  height: 6px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 3px;
-  overflow: hidden;
-  position: relative;
+  height: 6px; background: rgba(255,255,255,0.06);
+  border-radius: 3px; overflow: hidden;
 }
 
 .enemy-hp-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--blood), var(--blood-light));
-  border-radius: 3px;
-  transition: width 0.5s ease;
+  border-radius: 3px; transition: width 0.5s ease;
   box-shadow: 0 0 10px rgba(139,0,0,0.4);
 }
 
 .enemy-hp-text {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 3px;
-  font-family: 'Crimson Text', serif;
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--text-muted); margin-top: 3px;
 }
 
 .enemy-intent {
-  margin-top: 8px;
-  font-size: 11px;
-  color: var(--blood-light);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  opacity: 0.8;
-  font-family: 'MedievalSharp', serif;
+  margin-top: 6px; font-size: 11px; color: var(--blood-light);
+  letter-spacing: 2px; text-transform: uppercase; opacity: 0.8;
 }
-
-/* ─── DIVIDER ─────────────────────────────────────── */
 
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(106,13,173,0.15), transparent);
-  margin: 4px 40px;
-  flex-shrink: 0;
+  margin: 4px 40px; flex-shrink: 0;
 }
 
-/* ─── PLAYER ZONE ──────────────────────────────────── */
+/* ─── PLAYER ──────────────────────────────────────── */
 
 .player-zone {
-  flex-shrink: 0;
-  padding: 8px 0 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
+  flex-shrink: 0; padding: 8px 0 4px;
+  display: flex; align-items: center; justify-content: center; gap: 24px;
 }
 
 .player-stat {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  background: rgba(255,255,255,0.03);
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 16px; background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.06);
 }
 
-.player-stat .icon {
-  font-size: 16px;
-}
+.player-stat .icon { font-size: 16px; }
 
 .player-stat .value {
   font-family: 'MedievalSharp', serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-  min-width: 24px;
-  text-align: center;
+  font-size: 18px; font-weight: 700;
+  min-width: 24px; text-align: center;
 }
 
 .player-stat .value.health { color: var(--blood-light); }
 .player-stat .value.block { color: var(--emerald); }
 .player-stat .value.energy { color: var(--purple-glow); }
-
-.player-stat .max {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-/* ─── PILE INDICATORS ─────────────────────────────── */
+.player-stat .max { font-size: 12px; color: var(--text-muted); }
 
 .pile-info {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-shrink: 0;
-  padding: 2px 0 4px;
+  display: flex; gap: 12px; justify-content: center;
+  flex-shrink: 0; padding: 2px 0 4px;
 }
 
 .pile-badge {
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  font-family: 'Crimson Text', serif;
+  font-size: 10px; color: var(--text-muted); letter-spacing: 1px;
 }
 
-.pile-badge span {
-  color: var(--gold);
-  font-weight: 700;
-}
+.pile-badge span { color: var(--gold); font-weight: 700; }
 
-/* ─── HAND ZONE ────────────────────────────────────── */
+/* ─── HAND ────────────────────────────────────────── */
 
 .hand-zone {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 4px 8px 0;
-  min-height: 140px;
-  perspective: 800px;
+  flex-shrink: 0; display: flex; align-items: center;
+  justify-content: center; gap: 6px; padding: 4px 8px 0;
+  min-height: 150px; perspective: 800px;
 }
 
-/* ─── CARD ─────────────────────────────────────────── */
+/* ─── CARD ────────────────────────────────────────── */
 
 .card {
-  width: 90px;
-  height: 128px;
+  width: 90px; height: 130px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
+  display: flex; flex-direction: column;
+  cursor: pointer; flex-shrink: 0;
   transition: transform 0.2s ease, border-color 0.2s, box-shadow 0.2s;
-  flex-shrink: 0;
-  position: relative;
-  box-shadow: var(--shadow);
+  position: relative; box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .card:hover {
@@ -300,13 +218,9 @@ body {
   z-index: 5;
 }
 
-.card:active {
-  transform: translateY(-6px) scale(0.98);
-}
+.card:active { transform: translateY(-6px) scale(0.98); }
 
-.card.playable {
-  border-color: rgba(106,13,173,0.3);
-}
+.card.playable { border-color: rgba(106,13,173,0.3); }
 
 .card.playable:hover {
   border-color: var(--purple-glow);
@@ -314,144 +228,83 @@ body {
 }
 
 .card.disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  filter: grayscale(0.5);
+  opacity: 0.4; cursor: not-allowed; filter: grayscale(0.5);
 }
 
 .card.disabled:hover {
-  transform: none;
-  border-color: var(--card-border);
-  box-shadow: var(--shadow);
+  transform: none; border-color: var(--card-border); box-shadow: var(--shadow);
 }
 
-/* Card top strip */
 .card-strip {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
 }
 
 .card-strip.attack { background: linear-gradient(90deg, var(--blood), var(--blood-light)); }
 .card-strip.skill { background: linear-gradient(90deg, var(--emerald), var(--emerald-glow)); }
 .card-strip.power { background: linear-gradient(90deg, var(--purple), var(--purple-glow)); }
 
-/* Card cost */
 .card-cost {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--purple);
-  border: 1px solid var(--purple-glow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 900;
-  color: #fff;
-  font-family: 'MedievalSharp', serif;
+  position: absolute; top: 6px; left: 6px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--purple); border: 1px solid var(--purple-glow);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 900; color: #fff;
   box-shadow: 0 0 8px rgba(106,13,173,0.3);
 }
 
-/* Card icon */
-.card-icon {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  padding-top: 8px;
+.card-art {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 4px; overflow: hidden;
 }
 
-/* Card name */
+.card-art img {
+  width: 54px; height: 54px; object-fit: contain;
+  image-rendering: pixelated;
+}
+
 .card-name {
   font-family: 'MedievalSharp', serif;
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 0 6px;
-  color: var(--text);
-  margin-bottom: 2px;
-  line-height: 1.2;
+  font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  text-align: center; padding: 0 6px; line-height: 1.2; color: var(--text);
 }
 
-/* Card description */
 .card-desc {
   font-family: 'Crimson Text', serif;
-  font-size: 9px;
-  color: var(--text-muted);
-  text-align: center;
-  padding: 0 6px 6px;
-  line-height: 1.3;
-  font-style: italic;
+  font-size: 9px; color: var(--text-muted);
+  text-align: center; padding: 0 6px 5px; line-height: 1.3; font-style: italic;
 }
 
-/* Card type badge */
 .card-type {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 8px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-family: 'MedievalSharp', serif;
-  opacity: 0.6;
+  position: absolute; top: 6px; right: 6px;
+  font-size: 7px; letter-spacing: 1px; text-transform: uppercase;
+  opacity: 0.5;
 }
 
 .card-type.attack { color: var(--blood-light); }
 .card-type.skill { color: var(--emerald); }
 .card-type.power { color: var(--purple-glow); }
 
-/* ─── END TURN BUTTON ──────────────────────────────── */
-
 .end-turn-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 24px;
-  z-index: 10;
-  padding: 10px 24px;
-  background: transparent;
-  border: 1px solid var(--blood);
-  color: var(--blood-light);
+  position: fixed; bottom: 20px; right: 24px; z-index: 10;
+  padding: 10px 24px; background: transparent;
+  border: 1px solid var(--blood); color: var(--blood-light);
   font-family: 'MedievalSharp', serif;
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s;
+  font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.3s;
 }
 
-.end-turn-btn:hover {
-  background: rgba(139,0,0,0.1);
-  box-shadow: 0 0 20px rgba(139,0,0,0.15);
-}
-
-.end-turn-btn:active {
-  transform: scale(0.97);
-}
-
-/* ─── BATTLE LOG ──────────────────────────────────── */
+.end-turn-btn:hover { background: rgba(139,0,0,0.1); box-shadow: 0 0 20px rgba(139,0,0,0.15); }
+.end-turn-btn:active { transform: scale(0.97); }
 
 .battle-log {
-  position: fixed;
-  bottom: 60px;
-  left: 24px;
-  z-index: 10;
-  max-width: 280px;
-  pointer-events: none;
+  position: fixed; bottom: 60px; left: 24px; z-index: 10;
+  max-width: 280px; pointer-events: none;
 }
 
 .battle-log p {
-  font-family: 'Crimson Text', serif;
-  font-style: italic;
-  font-size: 12px;
-  color: var(--text-muted);
-  opacity: 0;
-  animation: logFade 2s ease forwards;
+  font-family: 'Crimson Text', serif; font-style: italic;
+  font-size: 12px; color: var(--text-muted);
+  opacity: 0; animation: logFade 2s ease forwards;
   margin-bottom: 2px;
 }
 
@@ -468,88 +321,61 @@ body {
   100% { opacity: 0; transform: translateY(-4px); }
 }
 
-/* ─── RESULT OVERLAY ──────────────────────────────── */
-
 .result-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 100;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background: rgba(10,10,15,0.92);
-  backdrop-filter: blur(8px);
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 100; display: none;
+  align-items: center; justify-content: center; flex-direction: column;
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(8px);
   animation: resultFade 0.5s ease;
 }
 
 .result-overlay.show { display: flex; }
 
-@keyframes resultFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+@keyframes resultFade { from { opacity: 0; } to { opacity: 1; } }
 
 .result-overlay h2 {
   font-family: 'Uncial Antiqua', serif;
-  font-size: 42px;
-  letter-spacing: 8px;
-  margin-bottom: 8px;
+  font-size: 42px; letter-spacing: 8px; margin-bottom: 8px;
 }
 
-.result-overlay h2.victory {
+.result-overlay h2.victoria {
   background: linear-gradient(135deg, var(--gold), var(--emerald));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
-.result-overlay h2.defeat {
+.result-overlay h2.derrota {
   background: linear-gradient(135deg, var(--blood), var(--blood-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
 .result-overlay p {
   font-family: 'Crimson Text', serif;
-  font-size: 15px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-  font-style: italic;
+  font-size: 15px; color: var(--text-muted); margin-bottom: 24px; font-style: italic;
 }
 
 .result-overlay .restart-btn {
-  padding: 12px 36px;
-  background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
+  padding: 12px 36px; background: transparent;
+  border: 1px solid var(--gold); color: var(--gold);
   font-family: 'MedievalSharp', serif;
-  font-size: 14px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s;
+  font-size: 14px; letter-spacing: 4px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.3s;
 }
 
 .result-overlay .restart-btn:hover {
-  background: rgba(201,168,76,0.1);
-  box-shadow: 0 0 30px rgba(201,168,76,0.1);
+  background: rgba(201,168,76,0.1); box-shadow: 0 0 30px rgba(201,168,76,0.1);
 }
 
-/* ─── RESPONSIVE ──────────────────────────────────── */
-
 @media (max-width: 600px) {
-  .card { width: 72px; height: 104px; }
-  .card-icon { font-size: 22px; }
+  .card { width: 72px; height: 108px; }
+  .card-art img { width: 42px; height: 42px; }
   .card-name { font-size: 8px; }
   .card-desc { font-size: 7px; padding-bottom: 4px; }
   .card-cost { width: 18px; height: 18px; font-size: 10px; }
-  .enemy-sprite { width: 80px; height: 80px; font-size: 40px; }
+  .enemy-sprite { width: 96px; height: 96px; }
   .enemy-bar-wrap { width: 200px; }
   .player-stat { padding: 4px 10px; gap: 4px; }
   .player-stat .value { font-size: 14px; }
-  .hand-zone { gap: 4px; min-height: 110px; }
+  .hand-zone { gap: 4px; min-height: 120px; }
   .title-bar h1 { font-size: 13px; letter-spacing: 4px; }
 }
 </style>
@@ -560,234 +386,205 @@ body {
 
 <div class="title-bar">
   <h1>Cursed Arcana</h1>
-  <span class="version">v0.1 · Prologue</span>
+  <span class="version">v0.1 · Prólogo</span>
 </div>
-
-<!-- ─── GAME ─────────────────────────────────────────── -->
 
 <div class="game-container">
 
-  <!-- Enemy Zone -->
   <div class="enemy-zone" id="enemyZone">
-    <div class="enemy-sprite" id="enemySprite">💀</div>
-    <div class="enemy-name" id="enemyName">BONE WRAITH</div>
+    <div class="enemy-sprite" id="enemySprite">
+      <img src="assets/enemy_bone_wraith.png" alt="Enemigo">
+    </div>
+    <div class="enemy-name" id="enemyName">ESQUELETO MALDITO</div>
     <div class="enemy-bar-wrap">
-      <div class="enemy-hp-bar">
-        <div class="enemy-hp-fill" id="enemyHpFill" style="width:100%"></div>
-      </div>
+      <div class="enemy-hp-bar"><div class="enemy-hp-fill" id="enemyHpFill" style="width:100%"></div></div>
       <div class="enemy-hp-text">
         <span id="enemyHpText">8 / 8</span>
-        <span id="enemyIntent">⚔️ INTENT: ATTACK</span>
+        <span id="enemyIntent">⚔️ INTENCIÓN: ATACAR</span>
       </div>
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- Player Zone -->
   <div class="player-zone">
-    <div class="player-stat">
-      <span class="icon">❤️</span>
-      <span class="value health" id="playerHealth">30</span>
-      <span class="max">/ 30</span>
-    </div>
-    <div class="player-stat">
-      <span class="icon">🛡️</span>
-      <span class="value block" id="playerBlock">0</span>
-    </div>
-    <div class="player-stat">
-      <span class="icon">🔮</span>
-      <span class="value energy" id="playerEnergy">3</span>
-      <span class="max">/ 3</span>
-    </div>
+    <div class="player-stat"><span class="icon">❤️</span><span class="value health" id="playerHealth">30</span><span class="max">/ 30</span></div>
+    <div class="player-stat"><span class="icon">🛡️</span><span class="value block" id="playerBlock">0</span></div>
+    <div class="player-stat"><span class="icon">🔮</span><span class="value energy" id="playerEnergy">3</span><span class="max">/ 3</span></div>
   </div>
 
   <div class="pile-info">
-    <span class="pile-badge">📜 Draw: <span id="drawCount">5</span></span>
-    <span class="pile-badge">🗑️ Discard: <span id="discardCount">0</span></span>
+    <span class="pile-badge">📜 Mazo: <span id="drawCount">5</span></span>
+    <span class="pile-badge">🗑️ Descarte: <span id="discardCount">0</span></span>
   </div>
 
-  <!-- Hand -->
   <div class="hand-zone" id="handZone"></div>
-
 </div>
 
-<button class="end-turn-btn" id="endTurnBtn">⏭ End Turn</button>
+<button class="end-turn-btn" id="endTurnBtn">⏭ Finalizar Turno</button>
 
 <div class="battle-log" id="battleLog"></div>
 
-<!-- ─── RESULT OVERLAY ──────────────────────────────── -->
-
 <div class="result-overlay" id="resultOverlay">
-  <h2 id="resultTitle">VICTORY</h2>
-  <p id="resultDesc">The darkness recedes... for now.</p>
-  <button class="restart-btn" id="restartBtn">⟳ Rise Again</button>
+  <h2 id="resultTitle">VICTORIA</h2>
+  <p id="resultDesc">La oscuridad se retira... por ahora.</p>
+  <button class="restart-btn" id="restartBtn">⟳ Levantarse de Nuevo</button>
 </div>
 
 <script>
 /* ════════════════════════════════════════════════════════
-   CURSED ARCANA — Game Engine v0.1
+   CURSED ARCANA — Motor de Combate v0.1
    ════════════════════════════════════════════════════════ */
 
-// ─── CARD DEFINITIONS ───────────────────────────────────
+// ─── CARTAS ─────────────────────────────────────────────
 
-const CARD_TEMPLATES = [
+const CARTAS = [
   {
-    id: 'arcane_strike',
-    name: 'Arcane Strike',
-    type: 'attack',
-    cost: 1,
-    icon: '🗡️',
-    desc: 'Deal 6 damage.',
-    effect: (target, player) => {
-      const dmg = 6 + (player.strength || 0);
-      target.takeDamage(dmg);
-      return { type: 'damage', value: dmg };
+    id: 'golpe_arcano',
+    nombre: 'Golpe Arcano',
+    tipo: 'attack',
+    coste: 1,
+    arte: 'assets/icon_arcane_strike.png',
+    desc: 'Inflige 6 de daño.',
+    efecto: (objetivo, jugador) => {
+      const dmg = 6 + (jugador.fuerza || 0);
+      objetivo.recibirDanio(dmg);
+      return { tipo: 'damage', valor: dmg };
     }
   },
   {
-    id: 'spectral_shield',
-    name: 'Spectral Shield',
-    type: 'skill',
-    cost: 1,
-    icon: '🛡️',
-    desc: 'Gain 5 Block.',
-    effect: (target, player) => {
-      player.gainBlock(5);
-      return { type: 'block', value: 5 };
+    id: 'escudo_espectral',
+    nombre: 'Escudo Espectral',
+    tipo: 'skill',
+    coste: 1,
+    arte: 'assets/icon_spectral_shield.png',
+    desc: 'Gana 5 de Bloqueo.',
+    efecto: (objetivo, jugador) => {
+      jugador.ganarBloqueo(5);
+      return { tipo: 'block', valor: 5 };
     }
   },
   {
-    id: 'drain_life',
-    name: 'Drain Life',
-    type: 'attack',
-    cost: 2,
-    icon: '🔮',
-    desc: 'Deal 4 damage. Heal 3 HP.',
-    effect: (target, player) => {
-      target.takeDamage(4);
-      player.heal(3);
-      return { type: 'drain', value: 4 };
+    id: 'drenar_vida',
+    nombre: 'Drenar Vida',
+    tipo: 'attack',
+    coste: 2,
+    arte: 'assets/icon_drain_life.png',
+    desc: '4 de daño. Recupera 3 PV.',
+    efecto: (objetivo, jugador) => {
+      objetivo.recibirDanio(4);
+      jugador.curar(3);
+      return { tipo: 'drain', valor: 4 };
     }
   },
   {
-    id: 'dark_rift',
-    name: 'Dark Rift',
-    type: 'power',
-    cost: 2,
-    icon: '🌑',
-    desc: 'Gain 2 Strength this combat.',
-    effect: (target, player) => {
-      player.strength = (player.strength || 0) + 2;
-      return { type: 'buff', value: 2 };
+    id: 'abisso_oscuro',
+    nombre: 'Abismo Oscuro',
+    tipo: 'power',
+    coste: 2,
+    arte: 'assets/icon_dark_rift.png',
+    desc: 'Gana 2 de Fuerza permanente.',
+    efecto: (objetivo, jugador) => {
+      jugador.fuerza = (jugador.fuerza || 0) + 2;
+      return { tipo: 'buff', valor: 2 };
     }
   },
 ];
 
-// ─── ENEMY DEFINITIONS ──────────────────────────────────
+// ─── ENEMIGOS ───────────────────────────────────────────
 
-const ENEMY_TEMPLATES = [
+const ENEMIGOS = [
   {
-    id: 'bone_wraith',
-    name: 'Bone Wraith',
-    icon: '💀',
-    maxHp: 8,
-    damage: 4,
-    intentText: '⚔️ ATTACK',
+    id: 'esqueleto_maldito',
+    nombre: 'Esqueleto Maldito',
+    arte: 'assets/enemy_bone_wraith.png',
+    pvMax: 8,
+    danio: 4,
+    textoIntencion: '⚔️ INTENCIÓN: ATACAR',
   },
 ];
 
-// ─── CARD CLASS ─────────────────────────────────────────
+// ─── CLASE CARTA ────────────────────────────────────────
 
-class Card {
-  constructor(template) {
-    this.id = template.id;
-    this.name = template.name;
-    this.type = template.type;
-    this.cost = template.cost;
-    this.icon = template.icon;
-    this.desc = template.desc;
-    this.effect = template.effect;
+class Carta {
+  constructor(plantilla) {
+    this.id = plantilla.id;
+    this.nombre = plantilla.nombre;
+    this.tipo = plantilla.tipo;
+    this.coste = plantilla.coste;
+    this.arte = plantilla.arte;
+    this.desc = plantilla.desc;
+    this.efecto = plantilla.efecto;
   }
 
-  canPlay(player) {
-    return player.energy >= this.cost;
+  sePuedeJugar(jugador) {
+    return jugador.energia >= this.coste;
   }
 }
 
-// ─── ENEMY CLASS ────────────────────────────────────────
+// ─── CLASE ENEMIGO ──────────────────────────────────────
 
-class Enemy {
-  constructor(template) {
-    this.id = template.id;
-    this.name = template.name;
-    this.icon = template.icon;
-    this.maxHp = template.maxHp;
-    this.hp = template.maxHp;
-    this.damage = template.damage;
-    this.intentText = template.intentText;
-    this.block = 0;
+class Enemigo {
+  constructor(plantilla) {
+    this.id = plantilla.id;
+    this.nombre = plantilla.nombre;
+    this.arte = plantilla.arte;
+    this.pvMax = plantilla.pvMax;
+    this.pv = plantilla.pvMax;
+    this.danio = plantilla.danio;
+    this.textoIntencion = plantilla.textoIntencion;
+    this.bloqueo = 0;
   }
 
-  takeDamage(amount) {
-    let remaining = amount;
-    if (this.block > 0) {
-      const absorbed = Math.min(this.block, remaining);
-      this.block -= absorbed;
-      remaining -= absorbed;
+  recibirDanio(cantidad) {
+    let restante = cantidad;
+    if (this.bloqueo > 0) {
+      const absorbido = Math.min(this.bloqueo, restante);
+      this.bloqueo -= absorbido;
+      restante -= absorbido;
     }
-    this.hp = Math.max(0, this.hp - remaining);
-    return amount;
+    this.pv = Math.max(0, this.pv - restante);
   }
 
-  isAlive() { return this.hp > 0; }
+  estaVivo() { return this.pv > 0; }
 
-  getIntent(difficulty) {
-    return {
-      type: 'attack',
-      value: this.damage,
-      text: this.intentText,
-    };
-  }
-
-  act(player) {
-    const intent = this.getIntent();
-    player.takeDamage(intent.value);
-    return intent;
+  actuar(jugador) {
+    const danioFinal = this.danio;
+    jugador.recibirDanio(danioFinal);
+    return { tipo: 'attack', valor: danioFinal };
   }
 }
 
-// ─── PLAYER CLASS ───────────────────────────────────────
+// ─── CLASE JUGADOR ──────────────────────────────────────
 
-class Player {
+class Jugador {
   constructor() {
-    this.maxHp = 30;
-    this.hp = 30;
-    this.block = 0;
-    this.maxEnergy = 3;
-    this.energy = 3;
-    this.strength = 0;
-    this.deck = [];
-    this.hand = [];
-    this.discardPile = [];
+    this.pvMax = 30;
+    this.pv = 30;
+    this.bloqueo = 0;
+    this.energiaMax = 3;
+    this.energia = 3;
+    this.fuerza = 0;
+    this.mazo = [];
+    this.mano = [];
+    this.descarte = [];
   }
 
-  initDeck() {
-    // Start with basic cards
-    const cards = [];
-    for (let i = 0; i < 3; i++) cards.push(new Card(CARD_TEMPLATES[0])); // Arcane Strike
-    for (let i = 0; i < 3; i++) cards.push(new Card(CARD_TEMPLATES[1])); // Spectral Shield
-    for (let i = 0; i < 2; i++) cards.push(new Card(CARD_TEMPLATES[2])); // Drain Life
-    cards.push(new Card(CARD_TEMPLATES[3])); // Dark Rift
-    this.deck = this.shuffle(cards);
-    this.discardPile = [];
-    this.hand = [];
-    this.block = 0;
-    this.strength = 0;
-    this.energy = this.maxEnergy;
+  initMazo() {
+    const cartas = [];
+    for (let i = 0; i < 3; i++) cartas.push(new Carta(CARTAS[0]));
+    for (let i = 0; i < 3; i++) cartas.push(new Carta(CARTAS[1]));
+    for (let i = 0; i < 2; i++) cartas.push(new Carta(CARTAS[2]));
+    cartas.push(new Carta(CARTAS[3]));
+    this.mazo = this.barajar(cartas);
+    this.descarte = [];
+    this.mano = [];
+    this.bloqueo = 0;
+    this.fuerza = 0;
+    this.energia = this.energiaMax;
   }
 
-  shuffle(arr) {
+  barajar(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -796,302 +593,267 @@ class Player {
     return a;
   }
 
-  drawCards(count) {
-    let drawn = 0;
+  robar(count) {
+    let robadas = 0;
     for (let i = 0; i < count; i++) {
-      if (this.deck.length === 0) {
-        if (this.discardPile.length === 0) break;
-        this.deck = this.shuffle(this.discardPile);
-        this.discardPile = [];
-        addLog('📜 Deck reshuffled...', 'info');
+      if (this.mazo.length === 0) {
+        if (this.descarte.length === 0) break;
+        this.mazo = this.barajar(this.descarte);
+        this.descarte = [];
+        agregarLog('📜 Mazo rebarajado...', 'info');
       }
-      this.hand.push(this.deck.pop());
-      drawn++;
+      this.mano.push(this.mazo.pop());
+      robadas++;
     }
-    return drawn;
+    return robadas;
   }
 
-  gainBlock(amount) {
-    this.block += amount;
-  }
+  ganarBloqueo(cantidad) { this.bloqueo += cantidad; }
 
-  takeDamage(amount) {
-    let remaining = amount;
-    if (this.block > 0) {
-      const absorbed = Math.min(this.block, remaining);
-      this.block -= absorbed;
-      remaining -= absorbed;
+  recibirDanio(cantidad) {
+    let restante = cantidad;
+    if (this.bloqueo > 0) {
+      const absorbido = Math.min(this.bloqueo, restante);
+      this.bloqueo -= absorbido;
+      restante -= absorbido;
     }
-    this.hp = Math.max(0, this.hp - remaining);
-    return remaining;
+    this.pv = Math.max(0, this.pv - restante);
   }
 
-  heal(amount) {
-    this.hp = Math.min(this.maxHp, this.hp + amount);
+  curar(cantidad) { this.pv = Math.min(this.pvMax, this.pv + cantidad); }
+
+  estaVivo() { return this.pv > 0; }
+
+  jugarCarta(indice, enemigo) {
+    const carta = this.mano[indice];
+    if (!carta) return null;
+    if (!carta.sePuedeJugar(this)) return null;
+    this.energia -= carta.coste;
+    this.mano.splice(indice, 1);
+    this.descarte.push(carta);
+    const resultado = carta.efecto(enemigo, this);
+    return { carta, resultado };
   }
 
-  isAlive() { return this.hp > 0; }
-
-  playCard(cardIndex, enemy) {
-    const card = this.hand[cardIndex];
-    if (!card) return null;
-    if (!card.canPlay(this)) return null;
-
-    this.energy -= card.cost;
-    this.hand.splice(cardIndex, 1);
-    this.discardPile.push(card);
-
-    const result = card.effect(enemy, this);
-    return { card, result };
+  terminarTurno() {
+    while (this.mano.length > 0) this.descarte.push(this.mano.pop());
+    this.bloqueo = 0;
+    this.energia = this.energiaMax;
   }
 
-  endTurn() {
-    // Discard hand
-    while (this.hand.length > 0) {
-      this.discardPile.push(this.hand.pop());
-    }
-    this.block = 0;
-    this.energy = this.maxEnergy;
-  }
-
-  startTurn() {
-    this.block = 0;
-    this.energy = this.maxEnergy;
-    this.drawCards(5);
+  empezarTurno() {
+    this.bloqueo = 0;
+    this.energia = this.energiaMax;
+    this.robar(5);
   }
 }
 
-// ─── GAME STATE ─────────────────────────────────────────
+// ─── ESTADO DEL JUEGO ──────────────────────────────────
 
-let player = null;
-let enemy = null;
-let gameState = 'idle'; // idle, playerTurn, enemyTurn, victory, defeat
-let gameLog = [];
-
-// ─── DOM REFS ─────────────────────────────────────────
+let jugador = null;
+let enemigo = null;
+let estado = 'idle'; // idle, turnoJugador, turnoEnemigo, victoria, derrota
 
 const $ = id => document.getElementById(id);
-const enemySprite = $('enemySprite');
-const enemyName = $('enemyName');
-const enemyHpFill = $('enemyHpFill');
-const enemyHpText = $('enemyHpText');
-const enemyIntent = $('enemyIntent');
-const playerHealth = $('playerHealth');
-const playerBlock = $('playerBlock');
-const playerEnergy = $('playerEnergy');
-const handZone = $('handZone');
-const drawCount = $('drawCount');
-const discardCount = $('discardCount');
-const battleLog = $('battleLog');
-const endTurnBtn = $('endTurnBtn');
-const resultOverlay = $('resultOverlay');
-const resultTitle = $('resultTitle');
-const resultDesc = $('resultDesc');
-const restartBtn = $('restartBtn');
+const enemigoSprite = $('enemySprite');
+const enemigoImg = enemigoSprite.querySelector('img');
+const enemigoNombre = $('enemyName');
+const enemigoBarra = $('enemyHpFill');
+const enemigoTexto = $('enemyHpText');
+const enemigoIntencion = $('enemyIntent');
+const jugadorVida = $('playerHealth');
+const jugadorBloqueo = $('playerBlock');
+const jugadorEnergia = $('playerEnergy');
+const zonaMano = $('handZone');
+const contadorMazo = $('drawCount');
+const contadorDescarte = $('discardCount');
+const registro = $('battleLog');
+const btnFinTurno = $('endTurnBtn');
+const overlayResultado = $('resultOverlay');
+const tituloResultado = $('resultTitle');
+const descResultado = $('resultDesc');
+const btnReiniciar = $('restartBtn');
 
-// ─── LOGGING ───────────────────────────────────────────
+// ─── LOG ────────────────────────────────────────────────
 
-function addLog(text, type = 'info') {
-  gameLog.push({ text, type });
+function agregarLog(texto, tipo = 'info') {
   const p = document.createElement('p');
-  p.className = type;
-  p.textContent = text;
-  battleLog.appendChild(p);
-  // Keep only last 5
-  while (battleLog.children.length > 5) {
-    battleLog.removeChild(battleLog.firstChild);
-  }
+  p.className = tipo;
+  p.textContent = texto;
+  registro.appendChild(p);
+  while (registro.children.length > 5) registro.removeChild(registro.firstChild);
 }
 
-// ─── RENDER ────────────────────────────────────────────
+// ─── RENDER ─────────────────────────────────────────────
 
-function render() {
-  if (!player || !enemy) return;
+function renderizar() {
+  if (!jugador || !enemigo) return;
 
-  // Enemy
-  enemyName.textContent = enemy.name;
-  enemySprite.textContent = enemy.icon;
-  const hpPct = (enemy.hp / enemy.maxHp) * 100;
-  enemyHpFill.style.width = hpPct + '%';
-  enemyHpText.textContent = `${enemy.hp} / ${enemy.maxHp}`;
-  enemyIntent.textContent = enemy.intentText;
+  const porc = (enemigo.pv / enemigo.pvMax) * 100;
+  enemigoBarra.style.width = porc + '%';
+  enemigoTexto.textContent = `${enemigo.pv} / ${enemigo.pvMax}`;
+  enemigoIntencion.textContent = enemigo.textoIntencion;
+  enemigoNombre.textContent = enemigo.nombre;
+  enemigoImg.src = enemigo.arte;
 
-  // Player
-  playerHealth.textContent = player.hp;
-  playerBlock.textContent = player.block;
-  playerEnergy.textContent = player.energy;
+  jugadorVida.textContent = jugador.pv;
+  jugadorBloqueo.textContent = jugador.bloqueo;
+  jugadorEnergia.textContent = jugador.energia;
 
-  // Piles
-  drawCount.textContent = player.deck.length;
-  discardCount.textContent = player.discardPile.length;
+  contadorMazo.textContent = jugador.mazo.length;
+  contadorDescarte.textContent = jugador.descarte.length;
 
-  // Hand
-  renderHand();
+  renderizarMano();
 }
 
-function renderHand() {
-  handZone.innerHTML = '';
-  player.hand.forEach((card, index) => {
+function renderizarMano() {
+  zonaMano.innerHTML = '';
+  jugador.mano.forEach((carta, indice) => {
     const el = document.createElement('div');
-    el.className = 'card' + (card.canPlay(player) && gameState === 'playerTurn' ? ' playable' : ' disabled');
-    el.dataset.index = index;
+    el.className = 'card' + (carta.sePuedeJugar(jugador) && estado === 'turnoJugador' ? ' playable' : ' disabled');
+    el.dataset.index = indice;
 
     el.innerHTML = `
-      <div class="card-strip ${card.type}"></div>
-      <div class="card-cost">${card.cost}</div>
-      <div class="card-type ${card.type}">${card.type}</div>
-      <div class="card-icon">${card.icon}</div>
-      <div class="card-name">${card.name}</div>
-      <div class="card-desc">${card.desc}</div>
+      <div class="card-strip ${carta.tipo}"></div>
+      <div class="card-cost">${carta.coste}</div>
+      <div class="card-type ${carta.tipo}">${carta.tipo === 'attack' ? 'ataque' : carta.tipo === 'skill' ? 'habilidad' : 'poder'}</div>
+      <div class="card-art"><img src="${carta.arte}" alt="${carta.nombre}"></div>
+      <div class="card-name">${carta.nombre}</div>
+      <div class="card-desc">${carta.desc}</div>
     `;
 
-    if (card.canPlay(player) && gameState === 'playerTurn') {
-      el.addEventListener('click', () => onCardClick(index));
+    if (carta.sePuedeJugar(jugador) && estado === 'turnoJugador') {
+      el.addEventListener('click', () => alJugarCarta(indice));
     }
 
-    handZone.appendChild(el);
+    zonaMano.appendChild(el);
   });
 }
 
-function showResult(victory) {
-  resultOverlay.classList.add('show');
-  if (victory) {
-    resultTitle.className = 'victory';
-    resultTitle.textContent = 'VICTORY';
-    resultDesc.textContent = 'The cursed relic is yours... for now.';
+function mostrarResultado(victoria) {
+  overlayResultado.classList.add('show');
+  if (victoria) {
+    tituloResultado.className = 'victoria';
+    tituloResultado.textContent = 'VICTORIA';
+    descResultado.textContent = 'El relicario maldito es tuyo... por ahora.';
   } else {
-    resultTitle.className = 'defeat';
-    resultTitle.textContent = 'DEFEAT';
-    resultDesc.textContent = 'Your soul joins the countless others...';
+    tituloResultado.className = 'derrota';
+    tituloResultado.textContent = 'DERROTA';
+    descResultado.textContent = 'Tu alma se une a las incontables otras...';
   }
 }
 
-function hideResult() {
-  resultOverlay.classList.remove('show');
+function ocultarResultado() {
+  overlayResultado.classList.remove('show');
 }
 
-// ─── GAME ACTIONS ───────────────────────────────────────
+// ─── ACCIONES ────────────────────────────────────────────
 
-function onCardClick(index) {
-  if (gameState !== 'playerTurn') return;
+function alJugarCarta(indice) {
+  if (estado !== 'turnoJugador') return;
 
-  const result = player.playCard(index, enemy);
-  if (!result) return;
+  const resultado = jugador.jugarCarta(indice, enemigo);
+  if (!resultado) return;
 
-  const { card, result: r } = result;
+  const { carta, resultado: r } = resultado;
 
-  // Log
-  if (r.type === 'damage') {
-    addLog(`⚡ ${card.name}: ${r.value} damage`, 'damage');
-    enemySprite.classList.remove('hurt');
-    void enemySprite.offsetWidth;
-    enemySprite.classList.add('hurt');
-  } else if (r.type === 'block') {
-    addLog(`🛡️ ${card.name}: +${r.value} Block`, 'block');
-  } else if (r.type === 'drain') {
-    addLog(`🔮 ${card.name}: ${r.value} dmg +3 heal`, 'heal');
-    enemySprite.classList.remove('hurt');
-    void enemySprite.offsetWidth;
-    enemySprite.classList.add('hurt');
-  } else if (r.type === 'buff') {
-    addLog(`🌑 ${card.name}: +${r.value} Strength`, 'info');
+  if (r.tipo === 'damage') {
+    agregarLog(`⚡ ${carta.nombre}: ${r.valor} de daño`, 'damage');
+    const img = enemigoSprite.querySelector('img');
+    img.style.animation = 'none';
+    void img.offsetWidth;
+    img.style.animation = '';
+    enemigoSprite.classList.remove('hurt');
+    void enemigoSprite.offsetWidth;
+    enemigoSprite.classList.add('hurt');
+  } else if (r.tipo === 'block') {
+    agregarLog(`🛡️ ${carta.nombre}: +${r.valor} Bloqueo`, 'block');
+  } else if (r.tipo === 'drain') {
+    agregarLog(`🔮 ${carta.nombre}: ${r.valor} dmg +${3} curación`, 'heal');
+    enemigoSprite.classList.remove('hurt');
+    void enemigoSprite.offsetWidth;
+    enemigoSprite.classList.add('hurt');
+  } else if (r.tipo === 'buff') {
+    agregarLog(`🌑 ${carta.nombre}: +${r.valor} Fuerza`, 'info');
   }
 
-  render();
+  renderizar();
 
-  // Check enemy death
-  if (!enemy.isAlive()) {
-    gameState = 'victory';
-    addLog('🏆 Enemy defeated!', 'info');
-    setTimeout(() => showResult(true), 600);
+  if (!enemigo.estaVivo()) {
+    estado = 'victoria';
+    agregarLog('🏆 ¡Enemigo derrotado!', 'info');
+    setTimeout(() => mostrarResultado(true), 600);
     return;
   }
 
-  // If no energy left, auto-end turn
-  if (player.energy <= 0) {
-    setTimeout(() => endPlayerTurn(), 400);
+  if (jugador.energia <= 0) {
+    setTimeout(() => terminarTurnoJugador(), 400);
   }
 }
 
-function endPlayerTurn() {
-  if (gameState !== 'playerTurn') return;
+function terminarTurnoJugador() {
+  if (estado !== 'turnoJugador') return;
+  estado = 'turnoEnemigo';
+  jugador.terminarTurno();
+  agregarLog('⏭ Turno finalizado.', 'info');
+  renderizar();
 
-  gameState = 'enemyTurn';
-  player.endTurn();
-  addLog('⏭ Turn ended.', 'info');
-  render();
-
-  // Enemy turn after short delay
   setTimeout(() => {
-    enemyTurn();
+    turnoEnemigo();
   }, 500);
 }
 
-function enemyTurn() {
-  if (!enemy.isAlive()) return;
+function turnoEnemigo() {
+  if (!enemigo.estaVivo()) return;
 
-  const intent = enemy.act(player);
-  addLog(`💥 ${enemy.name} attacks for ${intent.value}!`, 'enemy-dmg');
-  render();
+  const intencion = enemigo.actuar(jugador);
+  agregarLog(`💥 ${enemigo.nombre} ataca por ${intencion.valor}!`, 'enemy-dmg');
+  renderizar();
 
-  // Animate enemy attack
-  enemySprite.style.animation = 'none';
-  void enemySprite.offsetWidth;
-  enemySprite.style.animation = 'enemyFloat 3s ease-in-out infinite';
+  enemigoSprite.style.animation = 'none';
+  void enemigoSprite.offsetWidth;
+  enemigoSprite.style.animation = 'enemyFloat 3s ease-in-out infinite';
 
-  // Check player death
-  if (!player.isAlive()) {
-    gameState = 'defeat';
-    addLog('💀 You have fallen...', 'info');
-    setTimeout(() => showResult(false), 600);
+  if (!jugador.estaVivo()) {
+    estado = 'derrota';
+    agregarLog('💀 Has caído...', 'info');
+    setTimeout(() => mostrarResultado(false), 600);
     return;
   }
 
-  // Start player turn
   setTimeout(() => {
-    startPlayerTurn();
+    empezarTurnoJugador();
   }, 500);
 }
 
-function startPlayerTurn() {
-  if (gameState === 'victory' || gameState === 'defeat') return;
-  gameState = 'playerTurn';
-  player.startTurn();
-  addLog('🔮 Your turn. (Draw 5)', 'info');
-  render();
+function empezarTurnoJugador() {
+  if (estado === 'victoria' || estado === 'derrota') return;
+  estado = 'turnoJugador';
+  jugador.empezarTurno();
+  agregarLog('🔮 Tu turno. (Robas 5 cartas)', 'info');
+  renderizar();
 }
 
-// ─── GAME INIT ─────────────────────────────────────────
+// ─── INICIO ─────────────────────────────────────────────
 
-function initGame() {
-  hideResult();
-  player = new Player();
-  player.initDeck();
-  enemy = new Enemy(ENEMY_TEMPLATES[0]);
-
-  battleLog.innerHTML = '';
-  gameLog = [];
-
-  addLog('🌑 The cursed temple awakens...', 'info');
-  addLog(`💀 ${enemy.name} bars your path!`, 'enemy-dmg');
-
-  render();
-
-  // Start
-  gameState = 'playerTurn';
-  player.drawCards(5);
-  render();
+function iniciarJuego() {
+  ocultarResultado();
+  jugador = new Jugador();
+  jugador.initMazo();
+  enemigo = new Enemigo(ENEMIGOS[0]);
+  registro.innerHTML = '';
+  agregarLog('🌑 El templo maldito despierta...', 'info');
+  agregarLog(`💀 ¡${enemigo.nombre} bloquea tu camino!`, 'enemy-dmg');
+  renderizar();
+  estado = 'turnoJugador';
+  jugador.robar(5);
+  renderizar();
 }
 
-// ─── EVENTS ────────────────────────────────────────────
+btnFinTurno.addEventListener('click', terminarTurnoJugador);
+btnReiniciar.addEventListener('click', iniciarJuego);
 
-endTurnBtn.addEventListener('click', endPlayerTurn);
-restartBtn.addEventListener('click', initGame);
-
-// ─── START ─────────────────────────────────────────────
-
-initGame();
+iniciarJuego();
 </script>
-
 </body>
 </html>
