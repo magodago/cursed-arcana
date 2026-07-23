@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursed Arcana</title>
+<style>
+/* ═══════════════════════════════════════════════════
+   CURSED ARCANA — Premium Creepy Magic Card Game
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Uncial+Antiqua&family=Crimson+Text:ital@0;1&display=swap');
+
+:root {
+  --bg: #0a0a0f;
+  --text: #e0d6c8;
+  --text-muted: rgba(224,214,200,0.45);
+  --blood: #8b0000;
+  --blood-light: #cc1111;
+  --purple: #4a0072;
+  --purple-glow: #6a0dad;
+  --emerald: #00b8a0;
+  --emerald-glow: #00e6c8;
+  --orange: #ff6b35;
+  --gold: #c9a84c;
+  --card-bg: rgba(10,10,15,0.88);
+  --card-border: rgba(106,13,173,0.25);
+  --card-border-hover: rgba(106,13,173,0.6);
+  --shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Crimson Text', 'MedievalSharp', serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ─── ANIMATED BG ─────────────────────────────────── */
+
+.bg-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(139,0,0,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(74,0,114,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 20%, rgba(0,184,160,0.03) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 80%, rgba(106,13,173,0.03) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* ─── TITLE BAR ───────────────────────────────────── */
+
+.title-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(10,10,15,0.95) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.title-bar h1 {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 16px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--blood-light), var(--purple-glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title-bar .version {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  font-family: 'Crimson Text', serif;
+  -webkit-text-fill-color: var(--text-muted);
+}
+
+/* ─── GAME CONTAINER — 3 rows layout ──────────────── */
+
+.game-container {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 20px 16px;
+}
+
+/* ─── ENEMY ZONE ───────────────────────────────────── */
+
+.enemy-zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.enemy-sprite {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(139,0,0,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  filter: drop-shadow(0 0 30px rgba(139,0,0,0.3));
+  animation: enemyFloat 3s ease-in-out infinite;
+  transition: filter 0.3s;
+}
+
+@keyframes enemyFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.enemy-sprite.hurt {
+  animation: enemyHurt 0.3s ease;
+}
+
+@keyframes enemyHurt {
+  0%, 100% { filter: drop-shadow(0 0 30px rgba(139,0,0,0.3)); }
+  25% { filter: drop-shadow(0 0 60px rgba(255,0,0,0.8)); transform: translateX(4px); }
+  50% { transform: translateX(-4px); }
+  75% { filter: drop-shadow(0 0 60px rgba(255,0,0,0.8)); }
+}
+
+.enemy-name {
+  font-family: 'MedievalSharp', serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.enemy-bar-wrap {
+  width: 280px;
+  max-width: 90vw;
+  margin-top: 8px;
+}
+
+.enemy-hp-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.enemy-hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blood), var(--blood-light));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(139,0,0,0.4);
+}
+
+.enemy-hp-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-family: 'Crimson Text', serif;
+}
+
+.enemy-intent {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--blood-light);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  font-family: 'MedievalSharp', serif;
+}
+
+/* ─── DIVIDER ─────────────────────────────────────── */
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(106,13,173,0.15), transparent);
+  margin: 4px 40px;
+  flex-shrink: 0;
+}
+
+/* ─── PLAYER ZONE ──────────────────────────────────── */
+
+.player-zone {
+  flex-shrink: 0;
+  padding: 8px 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.player-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.player-stat .icon {
+  font-size: 16px;
+}
+
+.player-stat .value {
+  font-family: 'MedievalSharp', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 24px;
+  text-align: center;
+}
+
+.player-stat .value.health { color: var(--blood-light); }
+.player-stat .value.block { color: var(--emerald); }
+.player-stat .value.energy { color: var(--purple-glow); }
+
+.player-stat .max {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── PILE INDICATORS ─────────────────────────────── */
+
+.pile-info {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 2px 0 4px;
+}
+
+.pile-badge {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  font-family: 'Crimson Text', serif;
+}
+
+.pile-badge span {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ─── HAND ZONE ────────────────────────────────────── */
+
+.hand-zone {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 8px 0;
+  min-height: 140px;
+  perspective: 800px;
+}
+
+/* ─── CARD ─────────────────────────────────────────── */
+
+.card {
+  width: 90px;
+  height: 128px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: var(--shadow);
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.05);
+  border-color: var(--card-border-hover);
+  box-shadow: 0 8px 40px rgba(106,13,173,0.25), var(--shadow);
+  z-index: 5;
+}
+
+.card:active {
+  transform: translateY(-6px) scale(0.98);
+}
+
+.card.playable {
+  border-color: rgba(106,13,173,0.3);
+}
+
+.card.playable:hover {
+  border-color: var(--purple-glow);
+  box-shadow: 0 8px 40px rgba(106,13,173,0.35), var(--shadow);
+}
+
+.card.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.card.disabled:hover {
+  transform: none;
+  border-color: var(--card-border);
+  box-shadow: var(--shadow);
+}
+
+/* Card top strip */
+.card-strip {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.card-strip.attack { background: linear-gradient(90deg, var(--blood), var(--blood-light)); }
+.card-strip.skill { background: linear-gradient(90deg, var(--emerald), var(--emerald-glow)); }
+.card-strip.power { background: linear-gradient(90deg, var(--purple), var(--purple-glow)); }
+
+/* Card cost */
+.card-cost {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--purple);
+  border: 1px solid var(--purple-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  color: #fff;
+  font-family: 'MedievalSharp', serif;
+  box-shadow: 0 0 8px rgba(106,13,173,0.3);
+}
+
+/* Card icon */
+.card-icon {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  padding-top: 8px;
+}
+
+/* Card name */
+.card-name {
+  font-family: 'MedievalSharp', serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0 6px;
+  color: var(--text);
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+/* Card description */
+.card-desc {
+  font-family: 'Crimson Text', serif;
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0 6px 6px;
+  line-height: 1.3;
+  font-style: italic;
+}
+
+/* Card type badge */
+.card-type {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'MedievalSharp', serif;
+  opacity: 0.6;
+}
+
+.card-type.attack { color: var(--blood-light); }
+.card-type.skill { color: var(--emerald); }
+.card-type.power { color: var(--purple-glow); }
+
+/* ─── END TURN BUTTON ──────────────────────────────── */
+
+.end-turn-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  z-index: 10;
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid var(--blood);
+  color: var(--blood-light);
+  font-family: 'MedievalSharp', serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.end-turn-btn:hover {
+  background: rgba(139,0,0,0.1);
+  box-shadow: 0 0 20px rgba(139,0,0,0.15);
+}
+
+.end-turn-btn:active {
+  transform: scale(0.97);
+}
+
+/* ─── BATTLE LOG ──────────────────────────────────── */
+
+.battle-log {
+  position: fixed;
+  bottom: 60px;
+  left: 24px;
+  z-index: 10;
+  max-width: 280px;
+  pointer-events: none;
+}
+
+.battle-log p {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: logFade 2s ease forwards;
+  margin-bottom: 2px;
+}
+
+.battle-log p.damage { color: var(--blood-light); }
+.battle-log p.block { color: var(--emerald); }
+.battle-log p.heal { color: var(--emerald-glow); }
+.battle-log p.info { color: var(--text-muted); }
+.battle-log p.enemy-dmg { color: var(--orange); }
+
+@keyframes logFade {
+  0% { opacity: 0; transform: translateY(6px); }
+  15% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+/* ─── RESULT OVERLAY ──────────────────────────────── */
+
+.result-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(8px);
+  animation: resultFade 0.5s ease;
+}
+
+.result-overlay.show { display: flex; }
+
+@keyframes resultFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.result-overlay h2 {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 42px;
+  letter-spacing: 8px;
+  margin-bottom: 8px;
+}
+
+.result-overlay h2.victory {
+  background: linear-gradient(135deg, var(--gold), var(--emerald));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.result-overlay h2.defeat {
+  background: linear-gradient(135deg, var(--blood), var(--blood-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.result-overlay p {
+  font-family: 'Crimson Text', serif;
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+.result-overlay .restart-btn {
+  padding: 12px 36px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'MedievalSharp', serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.result-overlay .restart-btn:hover {
+  background: rgba(201,168,76,0.1);
+  box-shadow: 0 0 30px rgba(201,168,76,0.1);
+}
+
+/* ─── RESPONSIVE ──────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .card { width: 72px; height: 104px; }
+  .card-icon { font-size: 22px; }
+  .card-name { font-size: 8px; }
+  .card-desc { font-size: 7px; padding-bottom: 4px; }
+  .card-cost { width: 18px; height: 18px; font-size: 10px; }
+  .enemy-sprite { width: 80px; height: 80px; font-size: 40px; }
+  .enemy-bar-wrap { width: 200px; }
+  .player-stat { padding: 4px 10px; gap: 4px; }
+  .player-stat .value { font-size: 14px; }
+  .hand-zone { gap: 4px; min-height: 110px; }
+  .title-bar h1 { font-size: 13px; letter-spacing: 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-overlay"></div>
+
+<div class="title-bar">
+  <h1>Cursed Arcana</h1>
+  <span class="version">v0.1 · Prologue</span>
+</div>
+
+<!-- ─── GAME ─────────────────────────────────────────── -->
+
+<div class="game-container">
+
+  <!-- Enemy Zone -->
+  <div class="enemy-zone" id="enemyZone">
+    <div class="enemy-sprite" id="enemySprite">💀</div>
+    <div class="enemy-name" id="enemyName">BONE WRAITH</div>
+    <div class="enemy-bar-wrap">
+      <div class="enemy-hp-bar">
+        <div class="enemy-hp-fill" id="enemyHpFill" style="width:100%"></div>
+      </div>
+      <div class="enemy-hp-text">
+        <span id="enemyHpText">8 / 8</span>
+        <span id="enemyIntent">⚔️ INTENT: ATTACK</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Player Zone -->
+  <div class="player-zone">
+    <div class="player-stat">
+      <span class="icon">❤️</span>
+      <span class="value health" id="playerHealth">30</span>
+      <span class="max">/ 30</span>
+    </div>
+    <div class="player-stat">
+      <span class="icon">🛡️</span>
+      <span class="value block" id="playerBlock">0</span>
+    </div>
+    <div class="player-stat">
+      <span class="icon">🔮</span>
+      <span class="value energy" id="playerEnergy">3</span>
+      <span class="max">/ 3</span>
+    </div>
+  </div>
+
+  <div class="pile-info">
+    <span class="pile-badge">📜 Draw: <span id="drawCount">5</span></span>
+    <span class="pile-badge">🗑️ Discard: <span id="discardCount">0</span></span>
+  </div>
+
+  <!-- Hand -->
+  <div class="hand-zone" id="handZone"></div>
+
+</div>
+
+<button class="end-turn-btn" id="endTurnBtn">⏭ End Turn</button>
+
+<div class="battle-log" id="battleLog"></div>
+
+<!-- ─── RESULT OVERLAY ──────────────────────────────── -->
+
+<div class="result-overlay" id="resultOverlay">
+  <h2 id="resultTitle">VICTORY</h2>
+  <p id="resultDesc">The darkness recedes... for now.</p>
+  <button class="restart-btn" id="restartBtn">⟳ Rise Again</button>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   CURSED ARCANA — Game Engine v0.1
+   ════════════════════════════════════════════════════════ */
+
+// ─── CARD DEFINITIONS ───────────────────────────────────
+
+const CARD_TEMPLATES = [
+  {
+    id: 'arcane_strike',
+    name: 'Arcane Strike',
+    type: 'attack',
+    cost: 1,
+    icon: '🗡️',
+    desc: 'Deal 6 damage.',
+    effect: (target, player) => {
+      const dmg = 6 + (player.strength || 0);
+      target.takeDamage(dmg);
+      return { type: 'damage', value: dmg };
+    }
+  },
+  {
+    id: 'spectral_shield',
+    name: 'Spectral Shield',
+    type: 'skill',
+    cost: 1,
+    icon: '🛡️',
+    desc: 'Gain 5 Block.',
+    effect: (target, player) => {
+      player.gainBlock(5);
+      return { type: 'block', value: 5 };
+    }
+  },
+  {
+    id: 'drain_life',
+    name: 'Drain Life',
+    type: 'attack',
+    cost: 2,
+    icon: '🔮',
+    desc: 'Deal 4 damage. Heal 3 HP.',
+    effect: (target, player) => {
+      target.takeDamage(4);
+      player.heal(3);
+      return { type: 'drain', value: 4 };
+    }
+  },
+  {
+    id: 'dark_rift',
+    name: 'Dark Rift',
+    type: 'power',
+    cost: 2,
+    icon: '🌑',
+    desc: 'Gain 2 Strength this combat.',
+    effect: (target, player) => {
+      player.strength = (player.strength || 0) + 2;
+      return { type: 'buff', value: 2 };
+    }
+  },
+];
+
+// ─── ENEMY DEFINITIONS ──────────────────────────────────
+
+const ENEMY_TEMPLATES = [
+  {
+    id: 'bone_wraith',
+    name: 'Bone Wraith',
+    icon: '💀',
+    maxHp: 8,
+    damage: 4,
+    intentText: '⚔️ ATTACK',
+  },
+];
+
+// ─── CARD CLASS ─────────────────────────────────────────
+
+class Card {
+  constructor(template) {
+    this.id = template.id;
+    this.name = template.name;
+    this.type = template.type;
+    this.cost = template.cost;
+    this.icon = template.icon;
+    this.desc = template.desc;
+    this.effect = template.effect;
+  }
+
+  canPlay(player) {
+    return player.energy >= this.cost;
+  }
+}
+
+// ─── ENEMY CLASS ────────────────────────────────────────
+
+class Enemy {
+  constructor(template) {
+    this.id = template.id;
+    this.name = template.name;
+    this.icon = template.icon;
+    this.maxHp = template.maxHp;
+    this.hp = template.maxHp;
+    this.damage = template.damage;
+    this.intentText = template.intentText;
+    this.block = 0;
+  }
+
+  takeDamage(amount) {
+    let remaining = amount;
+    if (this.block > 0) {
+      const absorbed = Math.min(this.block, remaining);
+      this.block -= absorbed;
+      remaining -= absorbed;
+    }
+    this.hp = Math.max(0, this.hp - remaining);
+    return amount;
+  }
+
+  isAlive() { return this.hp > 0; }
+
+  getIntent(difficulty) {
+    return {
+      type: 'attack',
+      value: this.damage,
+      text: this.intentText,
+    };
+  }
+
+  act(player) {
+    const intent = this.getIntent();
+    player.takeDamage(intent.value);
+    return intent;
+  }
+}
+
+// ─── PLAYER CLASS ───────────────────────────────────────
+
+class Player {
+  constructor() {
+    this.maxHp = 30;
+    this.hp = 30;
+    this.block = 0;
+    this.maxEnergy = 3;
+    this.energy = 3;
+    this.strength = 0;
+    this.deck = [];
+    this.hand = [];
+    this.discardPile = [];
+  }
+
+  initDeck() {
+    // Start with basic cards
+    const cards = [];
+    for (let i = 0; i < 3; i++) cards.push(new Card(CARD_TEMPLATES[0])); // Arcane Strike
+    for (let i = 0; i < 3; i++) cards.push(new Card(CARD_TEMPLATES[1])); // Spectral Shield
+    for (let i = 0; i < 2; i++) cards.push(new Card(CARD_TEMPLATES[2])); // Drain Life
+    cards.push(new Card(CARD_TEMPLATES[3])); // Dark Rift
+    this.deck = this.shuffle(cards);
+    this.discardPile = [];
+    this.hand = [];
+    this.block = 0;
+    this.strength = 0;
+    this.energy = this.maxEnergy;
+  }
+
+  shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  drawCards(count) {
+    let drawn = 0;
+    for (let i = 0; i < count; i++) {
+      if (this.deck.length === 0) {
+        if (this.discardPile.length === 0) break;
+        this.deck = this.shuffle(this.discardPile);
+        this.discardPile = [];
+        addLog('📜 Deck reshuffled...', 'info');
+      }
+      this.hand.push(this.deck.pop());
+      drawn++;
+    }
+    return drawn;
+  }
+
+  gainBlock(amount) {
+    this.block += amount;
+  }
+
+  takeDamage(amount) {
+    let remaining = amount;
+    if (this.block > 0) {
+      const absorbed = Math.min(this.block, remaining);
+      this.block -= absorbed;
+      remaining -= absorbed;
+    }
+    this.hp = Math.max(0, this.hp - remaining);
+    return remaining;
+  }
+
+  heal(amount) {
+    this.hp = Math.min(this.maxHp, this.hp + amount);
+  }
+
+  isAlive() { return this.hp > 0; }
+
+  playCard(cardIndex, enemy) {
+    const card = this.hand[cardIndex];
+    if (!card) return null;
+    if (!card.canPlay(this)) return null;
+
+    this.energy -= card.cost;
+    this.hand.splice(cardIndex, 1);
+    this.discardPile.push(card);
+
+    const result = card.effect(enemy, this);
+    return { card, result };
+  }
+
+  endTurn() {
+    // Discard hand
+    while (this.hand.length > 0) {
+      this.discardPile.push(this.hand.pop());
+    }
+    this.block = 0;
+    this.energy = this.maxEnergy;
+  }
+
+  startTurn() {
+    this.block = 0;
+    this.energy = this.maxEnergy;
+    this.drawCards(5);
+  }
+}
+
+// ─── GAME STATE ─────────────────────────────────────────
+
+let player = null;
+let enemy = null;
+let gameState = 'idle'; // idle, playerTurn, enemyTurn, victory, defeat
+let gameLog = [];
+
+// ─── DOM REFS ─────────────────────────────────────────
+
+const $ = id => document.getElementById(id);
+const enemySprite = $('enemySprite');
+const enemyName = $('enemyName');
+const enemyHpFill = $('enemyHpFill');
+const enemyHpText = $('enemyHpText');
+const enemyIntent = $('enemyIntent');
+const playerHealth = $('playerHealth');
+const playerBlock = $('playerBlock');
+const playerEnergy = $('playerEnergy');
+const handZone = $('handZone');
+const drawCount = $('drawCount');
+const discardCount = $('discardCount');
+const battleLog = $('battleLog');
+const endTurnBtn = $('endTurnBtn');
+const resultOverlay = $('resultOverlay');
+const resultTitle = $('resultTitle');
+const resultDesc = $('resultDesc');
+const restartBtn = $('restartBtn');
+
+// ─── LOGGING ───────────────────────────────────────────
+
+function addLog(text, type = 'info') {
+  gameLog.push({ text, type });
+  const p = document.createElement('p');
+  p.className = type;
+  p.textContent = text;
+  battleLog.appendChild(p);
+  // Keep only last 5
+  while (battleLog.children.length > 5) {
+    battleLog.removeChild(battleLog.firstChild);
+  }
+}
+
+// ─── RENDER ────────────────────────────────────────────
+
+function render() {
+  if (!player || !enemy) return;
+
+  // Enemy
+  enemyName.textContent = enemy.name;
+  enemySprite.textContent = enemy.icon;
+  const hpPct = (enemy.hp / enemy.maxHp) * 100;
+  enemyHpFill.style.width = hpPct + '%';
+  enemyHpText.textContent = `${enemy.hp} / ${enemy.maxHp}`;
+  enemyIntent.textContent = enemy.intentText;
+
+  // Player
+  playerHealth.textContent = player.hp;
+  playerBlock.textContent = player.block;
+  playerEnergy.textContent = player.energy;
+
+  // Piles
+  drawCount.textContent = player.deck.length;
+  discardCount.textContent = player.discardPile.length;
+
+  // Hand
+  renderHand();
+}
+
+function renderHand() {
+  handZone.innerHTML = '';
+  player.hand.forEach((card, index) => {
+    const el = document.createElement('div');
+    el.className = 'card' + (card.canPlay(player) && gameState === 'playerTurn' ? ' playable' : ' disabled');
+    el.dataset.index = index;
+
+    el.innerHTML = `
+      <div class="card-strip ${card.type}"></div>
+      <div class="card-cost">${card.cost}</div>
+      <div class="card-type ${card.type}">${card.type}</div>
+      <div class="card-icon">${card.icon}</div>
+      <div class="card-name">${card.name}</div>
+      <div class="card-desc">${card.desc}</div>
+    `;
+
+    if (card.canPlay(player) && gameState === 'playerTurn') {
+      el.addEventListener('click', () => onCardClick(index));
+    }
+
+    handZone.appendChild(el);
+  });
+}
+
+function showResult(victory) {
+  resultOverlay.classList.add('show');
+  if (victory) {
+    resultTitle.className = 'victory';
+    resultTitle.textContent = 'VICTORY';
+    resultDesc.textContent = 'The cursed relic is yours... for now.';
+  } else {
+    resultTitle.className = 'defeat';
+    resultTitle.textContent = 'DEFEAT';
+    resultDesc.textContent = 'Your soul joins the countless others...';
+  }
+}
+
+function hideResult() {
+  resultOverlay.classList.remove('show');
+}
+
+// ─── GAME ACTIONS ───────────────────────────────────────
+
+function onCardClick(index) {
+  if (gameState !== 'playerTurn') return;
+
+  const result = player.playCard(index, enemy);
+  if (!result) return;
+
+  const { card, result: r } = result;
+
+  // Log
+  if (r.type === 'damage') {
+    addLog(`⚡ ${card.name}: ${r.value} damage`, 'damage');
+    enemySprite.classList.remove('hurt');
+    void enemySprite.offsetWidth;
+    enemySprite.classList.add('hurt');
+  } else if (r.type === 'block') {
+    addLog(`🛡️ ${card.name}: +${r.value} Block`, 'block');
+  } else if (r.type === 'drain') {
+    addLog(`🔮 ${card.name}: ${r.value} dmg +3 heal`, 'heal');
+    enemySprite.classList.remove('hurt');
+    void enemySprite.offsetWidth;
+    enemySprite.classList.add('hurt');
+  } else if (r.type === 'buff') {
+    addLog(`🌑 ${card.name}: +${r.value} Strength`, 'info');
+  }
+
+  render();
+
+  // Check enemy death
+  if (!enemy.isAlive()) {
+    gameState = 'victory';
+    addLog('🏆 Enemy defeated!', 'info');
+    setTimeout(() => showResult(true), 600);
+    return;
+  }
+
+  // If no energy left, auto-end turn
+  if (player.energy <= 0) {
+    setTimeout(() => endPlayerTurn(), 400);
+  }
+}
+
+function endPlayerTurn() {
+  if (gameState !== 'playerTurn') return;
+
+  gameState = 'enemyTurn';
+  player.endTurn();
+  addLog('⏭ Turn ended.', 'info');
+  render();
+
+  // Enemy turn after short delay
+  setTimeout(() => {
+    enemyTurn();
+  }, 500);
+}
+
+function enemyTurn() {
+  if (!enemy.isAlive()) return;
+
+  const intent = enemy.act(player);
+  addLog(`💥 ${enemy.name} attacks for ${intent.value}!`, 'enemy-dmg');
+  render();
+
+  // Animate enemy attack
+  enemySprite.style.animation = 'none';
+  void enemySprite.offsetWidth;
+  enemySprite.style.animation = 'enemyFloat 3s ease-in-out infinite';
+
+  // Check player death
+  if (!player.isAlive()) {
+    gameState = 'defeat';
+    addLog('💀 You have fallen...', 'info');
+    setTimeout(() => showResult(false), 600);
+    return;
+  }
+
+  // Start player turn
+  setTimeout(() => {
+    startPlayerTurn();
+  }, 500);
+}
+
+function startPlayerTurn() {
+  if (gameState === 'victory' || gameState === 'defeat') return;
+  gameState = 'playerTurn';
+  player.startTurn();
+  addLog('🔮 Your turn. (Draw 5)', 'info');
+  render();
+}
+
+// ─── GAME INIT ─────────────────────────────────────────
+
+function initGame() {
+  hideResult();
+  player = new Player();
+  player.initDeck();
+  enemy = new Enemy(ENEMY_TEMPLATES[0]);
+
+  battleLog.innerHTML = '';
+  gameLog = [];
+
+  addLog('🌑 The cursed temple awakens...', 'info');
+  addLog(`💀 ${enemy.name} bars your path!`, 'enemy-dmg');
+
+  render();
+
+  // Start
+  gameState = 'playerTurn';
+  player.drawCards(5);
+  render();
+}
+
+// ─── EVENTS ────────────────────────────────────────────
+
+endTurnBtn.addEventListener('click', endPlayerTurn);
+restartBtn.addEventListener('click', initGame);
+
+// ─── START ─────────────────────────────────────────────
+
+initGame();
+</script>
+
+</body>
+</html>
